@@ -107,6 +107,10 @@ button:disabled {
     font-size: 16px;
 }
 
+.raw-markdown::-webkit-scrollbar, .rendered-html::-webkit-scrollbar {
+    width: 0;                      /* Hide the scrollbar track */
+}
+
 .raw-markdown {
     border: 5px solid rgb(238, 251, 250);
     background-color: rgb(238, 251, 250);
