@@ -1,0 +1,16 @@
+{
+  "name": "markdown-editor",
+  "version": "0.1.0",
+  "description": "Basic markdown editor",
+  "main": "app/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mustafa Katipoğlu",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^26.2.2",
+    "marked": "^9.0.3"
+  }
+}
