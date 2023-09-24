@@ -10,7 +10,9 @@
   "author": "Mustafa Katipoğlu",
   "license": "ISC",
   "dependencies": {
+    "dompurify": "^3.0.5",
     "electron": "^26.2.2",
+    "jsdom": "^22.1.0",
     "marked": "^9.0.3"
   }
 }

@@ -42,13 +42,21 @@ const marked       = require('marked');
 const markdownView = document.querySelector('#markdown');
 const htmlView     = document.querySelector('#html');
 
+// Initialize the Sanitizer DOMPurify
+const createDOMPurify = require('dompurify');
+const { JSDOM }       = require('jsdom');
+const window          = new JSDOM('').window;
+const DOMPurify       = createDOMPurify(window);
+
 /*
- * @todo Use DOMPurify to sanitize the markdown. See https://marked.js.org/
+ * @note Marked docs recommends to parse the markdown in as follows.
  */
 const parseMarkdown = (markdown) =>{
-    marked.parse(
+    const renderedMarkdown = marked.parse(
         contents.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"") // remove the most common zerowidth characters from the start of the file
-    )
+    );
+
+    return DOMPurify.sanitize(renderedMarkdown);
 }
 
 const renderMarkdownToHtml = (markdown) => {
