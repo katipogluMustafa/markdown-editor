@@ -1,3 +1,5 @@
+/* Resizeable Markdown & HTML Columns */
+
 const divider      = document.querySelector('.divider');
 const rawMarkdown  = document.querySelector('.raw-markdown');
 const renderedHtml = document.querySelector('.rendered-html'); 
@@ -31,4 +33,30 @@ divider.addEventListener('mousedown', (event) =>{
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+});
+
+/* Markdown Rendering */
+
+const marked       = require('marked');
+
+const markdownView = document.querySelector('#markdown');
+const htmlView     = document.querySelector('#html');
+
+/*
+ * @todo Use DOMPurify to sanitize the markdown. See https://marked.js.org/
+ */
+const parseMarkdown = (markdown) =>{
+    marked.parse(
+        contents.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"") // remove the most common zerowidth characters from the start of the file
+    )
+}
+
+const renderMarkdownToHtml = (markdown) => {
+    htmlView.innerHTML = marked.parse(markdown);
+}
+
+markdownView.addEventListener('keyup', (event)=>{
+    const markdownContent = event.target.value;
+
+    renderMarkdownToHtml(markdownContent);
 });
