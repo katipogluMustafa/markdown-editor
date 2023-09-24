@@ -4,7 +4,15 @@ This basic markdown editor application is part of the `Electron In Action` curri
 
 ## v0.1
 
-### Design Goal
+### Requirements
+
+1. A user can open files from the file system.
+2. A user can save the changes to the file back to the file system.
+3. Markdown pages can be rendered as HTML:
+4. Rendered HTML can be exported.
+5. Rendered HTML can be copied to clipboard.
+
+### Design
 
 | ![](imgs/image.png) |
 | :---: |
