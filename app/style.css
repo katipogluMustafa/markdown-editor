@@ -2,6 +2,14 @@
  * Opts in to an updated CSS box model 
  * that will correctly set the width and height of elements.
  * 
+ *
+ * "The box-sizing property handles an historical oddity in CSS 
+ * where adding 50 pixels of padding to an element with a width 
+ * of 200 pixels would cause it to be 300 pixels wide (adding 50 
+ * pixels of padding on each side), with the same being true for 
+ * borders as well. When box-sizing is set to border-box, our 
+ * elements respect the height and width that we set them to."
+ * 
  */
 html {
     box-sizing: border-box;
@@ -36,6 +44,10 @@ body, input {
 
 /*
  * Removes the browser’s default highlighting around active input fields.
+ *
+ * The browser puts a border around whatever UI element is currently active. In macOS, this border is a blue glow.
+ * It looks especially bad in our application where one-half of the UI is effectively a large text input. 
+ * By setting outline to none, we remove the unnatural glow around the active element.
  */
 textarea, input, div, button {
     outline: none;
