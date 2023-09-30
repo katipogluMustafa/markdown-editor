@@ -69,47 +69,12 @@ markdownView.addEventListener('keyup', (event)=>{
     renderMarkdownToHtml(markdownContent);
 });
 
-/* Feature: Open File*/
-const fs = require('fs');
-const { dialog } = require('@electron/remote');
-
-function getFileFromUser()
-{
-    const is_operation_canceled = false;
-
-    const files = dialog.showOpenDialogSync({
-        properties: ['openFile'],
-        filters: [
-            { name: 'Markdown Files', extensions: ['md', 'markdown'] },
-            { name: 'Text Files', extensions: ['txt'] }
-        ]
-    });
-
-    if(!files)
-    {
-        return;
-    }
-
-    let file1 = files[0];
-    try
-    {
-        const fileContent = fs.readFileSync(file1).toString();
-
-        console.log(file1);
-        console.log(fileContent);
-
-        renderMarkdownToHtml(fileContent);
-    }
-    catch(error)
-    {
-        console.log(`File Read Error: ${error.message}`);
-    }
-}
+const {ipcRenderer} = require('electron');
 
 const openFileButton = document.querySelector('#open-file');
 
 openFileButton.addEventListener('click', ()=>{
-    getFileFromUser();
+    ipcRenderer.invoke('getFileFromUser');
 });
 
 /* Button Event Handling */
