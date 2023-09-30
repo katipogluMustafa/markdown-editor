@@ -3,15 +3,11 @@ const { app, BrowserWindow, dialog, ipcMain} = require('electron');
 let mainWindow = null;
 
 app.on('ready', ()=>{
-    mainWindow = get_default_hidden_browser_window();
-    load_index_page();
-    show_the_window_when_dom_is_ready();
-    
+    mainWindow = createWindow();
+
     mainWindow.on('closed', ()=>{
         mainWindow = null;
     });
-
-
 
     /*
     * Initialize electron remote dev environment
@@ -35,15 +31,15 @@ function get_default_hidden_browser_window()
     });
 }
 
-function load_index_page()
+function load_index_page(window)
 {
-    mainWindow.webContents.loadFile('app/index.html');
+    window.webContents.loadFile('app/index.html');
 }
 
-function show_the_window_when_dom_is_ready()
+function show_the_window_when_dom_is_ready(window)
 {
-    mainWindow.once('ready-to-show', ()=>{
-        mainWindow.show();
+    window.once('ready-to-show', ()=>{
+        window.show();
     });
 }
 
@@ -87,3 +83,23 @@ function getFileFromUser()
 ipcMain.handle('getFileFromUser', ()=>{
     return getFileFromUser();
 });
+
+/* Feature: Multiple Windows */
+
+const windows = new Set();
+
+function createWindow()
+{
+    let newWindow = get_default_hidden_browser_window();
+    
+    load_index_page(newWindow);
+    show_the_window_when_dom_is_ready(newWindow);
+
+    newWindow.on('closed', ()=>{
+        windows.delete(newWindow);
+    });
+
+    windows.add(newWindow);
+
+    return newWindow;
+}
