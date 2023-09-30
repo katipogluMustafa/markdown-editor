@@ -16,6 +16,25 @@ app.on('ready', ()=>{
     require("@electron/remote/main").enable(mainWindow.webContents)
 });
 
+/* Handle MacOS Window Closed */
+
+app.on('window-all-closed', ()=>{
+    if(process.platform === 'darwin')
+    {
+        return false;
+    }
+
+    app.quit();
+});
+
+
+app.on('activate', (event, hasVisibleWindows)=>{
+    if(!hasVisibleWindows)
+    {
+        createWindow;
+    }
+});
+
 function get_default_hidden_browser_window()
 {
     let x,y;
