@@ -18,9 +18,23 @@ app.on('ready', ()=>{
 
 function get_default_hidden_browser_window()
 {
+    let x,y;
+
+    const currentWindow = BrowserWindow.getFocusedWindow();
+
+    if(currentWindow)
+    {
+        const [currentWindowX, currentWindowY] = currentWindow.getPosition();
+
+        x = currentWindowX + 10;
+        y = currentWindowY + 10;
+    }
+
     return new BrowserWindow({
         width: 1366,
         height: 768,
+        x:x,
+        y:y,
         webPreferences: {
             nodeIntegration: true,
             sandbox: false,
