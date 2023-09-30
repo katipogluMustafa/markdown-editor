@@ -42,7 +42,33 @@ function show_the_window_when_dom_is_ready(window)
         window.show();
     });
 }
+/* Feature: Markdown Rendering */
+const marked       = require('marked');
 
+// Initialize the Sanitizer DOMPurify
+const createDOMPurify = require('dompurify');
+const { JSDOM }       = require('jsdom');
+const window          = new JSDOM('').window;
+const DOMPurify       = createDOMPurify(window);
+
+/*
+ * @note Marked docs recommends to parse the markdown in as follows.
+ */
+const parseMarkdown = (markdown) =>{
+    const renderedMarkdown = marked.parse(
+        contents.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"") // remove the most common zerowidth characters from the start of the file
+    );
+
+    return DOMPurify.sanitize(renderedMarkdown);
+}
+
+const renderMarkdownToHtml = (markdown) => {
+    return marked.parse(markdown);
+}
+
+ipcMain.handle('renderMarkdownToHtml', (markdown)=>{
+    return renderMarkdownToHtml(markdown);
+});
 
 /* Feature: Open File*/
 const fs = require('fs');
@@ -72,7 +98,7 @@ function getFileFromUser()
         console.log(file1);
         console.log(fileContent);
 
-        renderMarkdownToHtml(fileContent);
+        return renderMarkdownToHtml(fileContent);
     }
     catch(error)
     {
