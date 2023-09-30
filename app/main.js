@@ -110,7 +110,7 @@ ipcMain.handle('getFileFromUser', ()=>{
     return getFileFromUser();
 });
 
-/* Feature: Multiple Windows */
+/* Feature: Multiple Windows with New File */
 
 const windows = new Set();
 
@@ -129,3 +129,7 @@ function createWindow()
 
     return newWindow;
 }
+
+ipcMain.handle('createWindow', ()=>{
+    return createWindow();
+});

@@ -57,9 +57,16 @@ openFileButton.addEventListener('click', ()=>{
     });
 });
 
-/* Button Event Handling */
+/* Feature: New File */
 
 const newFileButton       = document.querySelector('#new-file');
+
+newFileButton.addEventListener('click', ()=>{
+    ipcRenderer.invoke('createWindow');
+});
+
+/* Button Event Handling */
+
 const saveMarkdownButton  = document.querySelector('#save-markdown');
 const revertButton        = document.querySelector('#revert');
 const saveHtmlButton      = document.querySelector('#save-html');
