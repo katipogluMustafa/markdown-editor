@@ -1,3 +1,6 @@
+let filePath          = null;
+let fileCachedContent = null;
+
 /* Resizeable Markdown & HTML Columns */
 
 const divider      = document.querySelector('.divider');
@@ -53,7 +56,15 @@ markdownView.addEventListener('keyup', (event)=>{
 const openFileButton = document.querySelector('#open-file');
 
 openFileButton.addEventListener('click', ()=>{
-    ipcRenderer.invoke('getFileFromUser').then(result=>{
+    ipcRenderer.invoke('getFileFromUser');
+});
+
+ipcRenderer.on('file-opened', (event, file, content) =>{
+    filePath          = file;
+    fileCachedContent = content;
+
+    markdownView.value = content;
+    ipcRenderer.invoke('renderMarkdownToHtml', content).then(result=>{
         htmlView.innerHTML = result;
     });
 });

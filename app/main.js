@@ -111,7 +111,7 @@ function getFileFromUser()
         console.log(file1);
         console.log(fileContent);
 
-        return parseMarkdownToHtml(fileContent);
+        mainWindow.webContents.send('file-opened', file1, fileContent);
     }
     catch(error)
     {
