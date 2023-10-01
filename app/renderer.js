@@ -54,6 +54,23 @@ function updateUserInterface()
     }
 }
 
+const saveMarkdownButton  = document.querySelector('#save-markdown');
+const revertButton        = document.querySelector('#revert');
+
+function updateUserInterfaceAsEdited()
+{
+    ipcRenderer.invoke('setDocumentEdited');
+
+    saveMarkdownButton.disabled = false;
+    revertButton.disabled       = false;
+}
+
+function updateUserInterfaceAsNoChange()
+{
+    saveMarkdownButton.disabled = true;
+    revertButton.disabled       = true;
+}
+
 /* Markdown Rendering */
 const {ipcRenderer} = require('electron');
 
@@ -67,6 +84,15 @@ markdownView.addEventListener('keyup', (event)=>{
     {
         htmlView.innerHTML = result;
     });
+
+    if(markdownContent === fileCachedContent)
+    {
+        updateUserInterfaceAsNoChange();
+    }
+    else
+    {
+        updateUserInterfaceAsEdited();
+    }
 });
 
 const openFileButton = document.querySelector('#open-file');
@@ -97,8 +123,6 @@ newFileButton.addEventListener('click', ()=>{
 
 /* Button Event Handling */
 
-const saveMarkdownButton  = document.querySelector('#save-markdown');
-const revertButton        = document.querySelector('#revert');
 const saveHtmlButton      = document.querySelector('#save-html');
 const showFileButton      = document.querySelector('#show-file');
 const openInDefaultButton = document.querySelector('#open-in-default');
