@@ -146,3 +146,9 @@ function createWindow()
 ipcMain.handle('createWindow', ()=>{
     return createWindow();
 });
+
+ipcMain.handle('setWindowTitle', (event, title)=>{
+    const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+    callingWindow.setTitle(title);
+})

@@ -38,6 +38,22 @@ divider.addEventListener('mousedown', (event) =>{
     document.addEventListener('mouseup', onMouseUp);
 });
 
+/* Feature: Window Title */
+
+const path = require('path');
+
+function updateUserInterface()
+{
+    let title = 'Ktpql';
+    
+    if(filePath)
+    {
+        title = `${path.basename(filePath)} - ${title}`;
+        
+        ipcRenderer.invoke('setWindowTitle', title);
+    }
+}
+
 /* Markdown Rendering */
 const {ipcRenderer} = require('electron');
 
@@ -67,6 +83,8 @@ ipcRenderer.on('file-opened', (event, file, content) =>{
     ipcRenderer.invoke('renderMarkdownToHtml', content).then(result=>{
         htmlView.innerHTML = result;
     });
+
+    updateUserInterface();
 });
 
 /* Feature: New File */
