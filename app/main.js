@@ -86,11 +86,11 @@ ipcMain.handle('renderMarkdownToHtml', (event, markdown)=>
 /* Feature: Open File*/
 const fs = require('fs');
 
-function getFileFromUser()
+function getFileFromUser(callingWindow)
 {
     const is_operation_canceled = false;
 
-    const files = dialog.showOpenDialogSync({
+    const files = dialog.showOpenDialogSync(callingWindow, {
         properties: ['openFile'],
         filters: [
             { name: 'Markdown Files', extensions: ['md', 'markdown'] },
@@ -119,8 +119,10 @@ function getFileFromUser()
     }
 }
 
-ipcMain.handle('getFileFromUser', ()=>{
-    return getFileFromUser();
+ipcMain.handle('getFileFromUser', (event)=>{
+    const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+    return getFileFromUser(callingWindow);
 });
 
 /* Feature: Multiple Windows with New File */
