@@ -43,8 +43,9 @@ const htmlView     = document.querySelector('#html');
 
 markdownView.addEventListener('keyup', (event)=>{
     const markdownContent = event.target.value;
-
-    ipcRenderer.invoke('renderMarkdownToHtml', markdownContent).then(result=>{
+    
+    ipcRenderer.invoke('renderMarkdownToHtml', markdownContent).then(result=>
+    {
         htmlView.innerHTML = result;
     });
 });

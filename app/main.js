@@ -95,11 +95,13 @@ const parseMarkdown = (markdown) =>{
     return DOMPurify.sanitize(renderedMarkdown);
 }
 
-const renderMarkdownToHtml = (markdown) => {
+const renderMarkdownToHtml = (markdown) =>
+{
     return marked.parse(markdown);
 }
 
-ipcMain.handle('renderMarkdownToHtml', (markdown)=>{
+ipcMain.handle('renderMarkdownToHtml', (event, markdown)=>
+{
     return renderMarkdownToHtml(markdown);
 });
 
