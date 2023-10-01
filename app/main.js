@@ -89,14 +89,14 @@ const DOMPurify       = createDOMPurify(window);
  */
 const parseMarkdown = (markdown) =>{
     const renderedMarkdown = marked.parse(
-        markdown.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"") // remove the most common zerowidth characters from the start of the file
+        contents.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/,"") // remove the most common zerowidth characters from the start of the file
     );
 
     return DOMPurify.sanitize(renderedMarkdown);
 }
 
 const renderMarkdownToHtml = (markdown) => {
-    return parseMarkdown(markdown);
+    return marked.parse(markdown);
 }
 
 ipcMain.handle('renderMarkdownToHtml', (markdown)=>{
