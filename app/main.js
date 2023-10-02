@@ -85,6 +85,36 @@ ipcMain.handle('renderMarkdownToHtml', (event, markdown)=>
 
 /* Feature: Open File*/
 const fs = require('fs');
+const path = require('path');
+
+function updateWindowTitleWithFileName(callingWindow, filePath)
+{
+    let title = 'Ktpql';
+    
+    if(filePath)
+    {
+        title = `${path.basename(filePath)} - ${title}`;
+    }
+
+    callingWindow.setTitle(title);
+}
+
+function openFile(callingWindow, file)
+{
+    try
+    {
+        const fileContent = fs.readFileSync(file).toString();
+
+        app.addRecentDocument(file);
+
+        mainWindow.webContents.send('file-opened', file, fileContent);
+        updateWindowTitleWithFileName(callingWindow, file);
+    }
+    catch(error)
+    {
+        console.log(`File Read Error: ${error.message}`);
+    }
+}
 
 function getFileFromUser(callingWindow)
 {
@@ -112,6 +142,7 @@ function getFileFromUser(callingWindow)
         console.log(fileContent);
 
         mainWindow.webContents.send('file-opened', file1, fileContent);
+        app.addRecentDocument(file1);
     }
     catch(error)
     {
@@ -160,4 +191,14 @@ ipcMain.handle('setDocumentEdited', (event)=>
     const callingWindow = BrowserWindow.fromWebContents(event.sender);
 
     callingWindow.setDocumentEdited(true);
+});
+
+
+app.on('will-finish-launching', ()=>{
+    app.on('open-file', (event, file) =>{
+        const window = createWindow();
+        window.once('ready-to-show', ()=>{
+            openFile(window, file);
+        });
+    });
 });

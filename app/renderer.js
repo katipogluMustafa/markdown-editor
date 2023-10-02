@@ -49,9 +49,9 @@ function updateUserInterface()
     if(filePath)
     {
         title = `${path.basename(filePath)} - ${title}`;
-        
-        ipcRenderer.invoke('setWindowTitle', title);
     }
+
+    ipcRenderer.invoke('setWindowTitle', title);
 }
 
 const saveMarkdownButton  = document.querySelector('#save-markdown');
