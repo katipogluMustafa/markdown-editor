@@ -202,3 +202,28 @@ app.on('will-finish-launching', ()=>{
         });
     });
 });
+
+/* Rendered HTML Exporting */
+function exportAsHtml(callingWindow, content)
+{
+    const file = dialog.showSaveDialogSync(callingWindow, {
+        title: 'Export As HTML',
+        defaultPath: app.getPath('documents'),
+        filters: [
+            {name: 'HTML Files', extensions: ['html', 'htm']}
+        ]
+    });
+
+    if(!file)
+    {
+        return;
+    }
+
+    fs.writeFileSync(file, content);
+}
+
+ipcMain.handle('exportAsHtml', (event, htmlContent)=>{
+    const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+    exportAsHtml(callingWindow, htmlContent);
+});

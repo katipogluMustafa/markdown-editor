@@ -121,8 +121,15 @@ newFileButton.addEventListener('click', ()=>{
     ipcRenderer.invoke('createWindow');
 });
 
+/* Feature: Save File */
+const saveHtmlButton      = document.querySelector('#save-html');
+saveHtmlButton.addEventListener('click', ()=>{
+    let htmlContent = htmlView.innerHTML;
+
+    ipcRenderer.invoke('exportAsHtml', htmlContent);
+});
+
 /* Button Event Handling */
 
-const saveHtmlButton      = document.querySelector('#save-html');
 const showFileButton      = document.querySelector('#show-file');
 const openInDefaultButton = document.querySelector('#open-in-default');
