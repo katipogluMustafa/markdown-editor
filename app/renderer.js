@@ -129,6 +129,15 @@ saveHtmlButton.addEventListener('click', ()=>{
     ipcRenderer.invoke('exportAsHtml', htmlContent);
 });
 
+
+/* Feature: Save as Markdown File*/
+saveMarkdownButton.addEventListener('click', ()=>{
+    let fileContent = markdownView.value;
+
+    ipcRenderer.invoke('ExportAsMarkdown', filePath, fileContent);
+});
+
+
 /* Button Event Handling */
 
 const showFileButton      = document.querySelector('#show-file');

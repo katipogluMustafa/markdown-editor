@@ -227,3 +227,34 @@ ipcMain.handle('exportAsHtml', (event, htmlContent)=>{
 
     exportAsHtml(callingWindow, htmlContent);
 });
+
+/* File Markdown Content Exporting */
+function exportAsMarkdown(callingWindow, filePath, content)
+{
+    let file = null;
+
+    if(null == filePath)
+    {
+        file = dialog.showSaveDialogSync(callingWindow, {
+            title: 'Save As Markdown',
+            defaultPath: app.getPath('documents'),
+            filters: [
+                {name: 'Markdown Files', extensions: ['md', 'markdown']}
+            ]
+        });
+    }
+
+    if(!file)
+    {
+        return;
+    }
+
+    fs.writeFileSync(file, content);
+    openFile(callingWindow, file);
+}
+
+ipcMain.handle('ExportAsMarkdown', (event, filePath, content)=>{
+    const callingWindow = BrowserWindow.fromWebContents(event.sender);
+    
+    exportAsMarkdown(callingWindow, filePath, content);
+})
