@@ -130,11 +130,20 @@ saveHtmlButton.addEventListener('click', ()=>{
 });
 
 
-/* Feature: Save as Markdown File*/
+/* Feature: Save as Markdown File */
 saveMarkdownButton.addEventListener('click', ()=>{
     let fileContent = markdownView.value;
 
     ipcRenderer.invoke('ExportAsMarkdown', filePath, fileContent);
+});
+
+/* Feature: Revert File Contents */
+revertButton.addEventListener('click', ()=>{
+    markdownView.value = fileCachedContent;
+
+    ipcRenderer.invoke('renderMarkdownToHtml', fileCachedContent).then(result=>{
+        htmlView.innerHTML = result;
+    });
 });
 
 
