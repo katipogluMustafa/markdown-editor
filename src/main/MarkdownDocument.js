@@ -38,7 +38,8 @@ function exportAsHtml(callingWindow, content)
         defaultPath: app.getPath('documents'),
         filters: [
             {name: 'HTML Files', extensions: ['html', 'htm']}
-        ]
+        ],
+        buttonLabel: 'Save HTML',
     });
 
     if(!file)
