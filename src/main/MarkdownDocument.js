@@ -63,15 +63,21 @@ function exportAsMarkdown(callingWindow, filePath, content)
                 {name: 'Markdown Files', extensions: ['md', 'markdown']}
             ]
         });
-    }
 
-    if(!file)
+        if(!file)
+        {
+            return;
+        }
+
+        fs.writeFileSync(file, content);
+        openFile(callingWindow, file);
+    }
+    else
     {
-        return;
-    }
+        fs.writeFileSync(filePath, content);
 
-    fs.writeFileSync(file, content);
-    openFile(callingWindow, file);
+        openFile(callingWindow, filePath);
+    }
 }
 
 module.exports = {exportAsMarkdown, exportAsHtml, openFile}
