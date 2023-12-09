@@ -2,6 +2,7 @@ const { BrowserWindow, ipcMain} = require('electron');
 const { createWindow }          = require('./EditorWindow');
 const { getFileFromUser }       = require('./UserDialog');
 const { parseMarkdownToHtml }   = require('./MarkdownParser');
+const { startFileWatcher }      = require('./FileWatcher');
 const {
     exportAsMarkdown, 
     exportAsHtml,
@@ -54,6 +55,12 @@ function registerMainProcessServices()
         const callingWindow = BrowserWindow.fromWebContents(event.sender);
 
         openFile(callingWindow, filePath);
+    });
+
+    ipcMain.handle('watchFile', (event, filePath) =>{
+        const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+        startFileWatcher(callingWindow, filePath);
     });
 }
 

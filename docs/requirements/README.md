@@ -29,3 +29,7 @@
 * [REQ9] Files can be dragged over to the markdown editor.
 * [REQ10] Plain text and markdown files can be dragged-and-dropped.
 * [REQ11] When a file is being dragged, the user can see visual indication of whether the operation will be successful or not.
+
+**Change Detection**
+* [REQ12] Any changes to the file by external tools should be tracked.
+* [REQ13] If file has no unsaved changes, file change should replace the content with latest one. 

@@ -2,15 +2,20 @@ const { app, dialog} = require('electron');
 const fs = require('fs');
 const path = require('path');
 
+function readFile(callingWindow, file)
+{
+    const fileContent = fs.readFileSync(file).toString();
+
+    app.addRecentDocument(file);
+
+    callingWindow.webContents.send('file-opened', file, fileContent);
+}
+
 function openFile(callingWindow, file)
 {
     try
     {
-        const fileContent = fs.readFileSync(file).toString();
-
-        app.addRecentDocument(file);
-
-        callingWindow.webContents.send('file-opened', file, fileContent);
+        readFile(callingWindow, file);
         updateWindowTitleWithFileName(callingWindow, file);
     }
     catch(error)
@@ -80,4 +85,4 @@ function exportAsMarkdown(callingWindow, filePath, content)
     }
 }
 
-module.exports = {exportAsMarkdown, exportAsHtml, openFile}
+module.exports = {exportAsMarkdown, exportAsHtml, openFile, readFile}

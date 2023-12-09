@@ -1,5 +1,6 @@
 const { app, BrowserWindow} = require('electron');
 const path = require('path');
+const {stopFileWatcher} = require('./FileWatcher');
 
 function get_default_hidden_browser_window()
 {
@@ -39,29 +40,23 @@ function createWindow()
 {
     let newWindow = get_default_hidden_browser_window();
     
-    load_index_page(newWindow);
-    show_the_window_when_dom_is_ready(newWindow);
+    newWindow.webContents.loadFile('app/index.html');
+
+    newWindow.once('ready-to-show', ()=>{
+        newWindow.show();
+    });
 
     newWindow.on('closed', ()=>{
         windows.delete(newWindow);
+        stopFileWatcher(newWindow);
         newWindow = null;
     });
+
+    newWindow.webContents.openDevTools();
 
     windows.add(newWindow);
 
     return newWindow;
-}
-
-function load_index_page(window)
-{
-    window.webContents.loadFile('app/index.html');
-}
-
-function show_the_window_when_dom_is_ready(window)
-{
-    window.once('ready-to-show', ()=>{
-        window.show();
-    });
 }
 
 module.exports = {get_default_hidden_browser_window, createWindow}

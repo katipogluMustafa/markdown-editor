@@ -122,6 +122,8 @@ const onFileOpened = (event, file, content) =>{
         {
             htmlView.innerHTML = result;
         });
+
+        window.markdownDocument.watch(filePath);
     }
 
     updateUserInterface();
@@ -188,17 +190,26 @@ document.addEventListener('dragover',  event => event.preventDefault());
 document.addEventListener('dragleave', event => event.preventDefault());
 document.addEventListener('drop',      event => event.preventDefault());
 
+const isNonEmptyString = (str)=>
+{
+    return null != str && '' != str.trim();
+}
+
 const isSupportedFileExtension = (fileName) =>
 {
     let result = false;
-    let supportedExtensions = ['.md', '.txt'];
-    let fileExtension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
 
-    if(supportedExtensions.includes('.' + fileExtension.toLowerCase()))
+    if(isNonEmptyString(fileName))
     {
-        result = true;
+        let supportedExtensions = ['.md', '.txt'];
+        let fileExtension = fileName.slice(((fileName.lastIndexOf(".") - 1) >>> 0) + 2);
+    
+        if(supportedExtensions.includes('.' + fileExtension.toLowerCase()))
+        {
+            result = true;
+        }    
     }
-
+    
     return result;
 }
 

@@ -42,6 +42,12 @@ contextBridge.exposeInMainWorld('markdownDocument', {
     },
     open: (filePath) => {
         ipcRenderer.invoke('openFile', filePath);
+    },
+    /*
+     * Watch markdown document for changes.
+     */
+    watch: (filePath) => {
+        ipcRenderer.invoke('watchFile', filePath);
     }
 });
 
