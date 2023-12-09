@@ -5,6 +5,7 @@ const { parseMarkdownToHtml }   = require('./MarkdownParser');
 const {
     exportAsMarkdown, 
     exportAsHtml,
+    openFile,
 } = require('./MarkdownDocument');
 
 function registerMainProcessServices()
@@ -48,6 +49,12 @@ function registerMainProcessServices()
         
         exportAsMarkdown(callingWindow, filePath, content);
     })
+
+    ipcMain.handle('openFile', (event, filePath)=>{
+        const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+        openFile(callingWindow, filePath);
+    });
 }
 
 module.exports = {

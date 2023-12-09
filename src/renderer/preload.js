@@ -40,6 +40,9 @@ contextBridge.exposeInMainWorld('markdownDocument', {
     render: (markdownContent) =>{
         return ipcRenderer.invoke('renderMarkdownToHtml', markdownContent);
     },
+    open: (filePath) => {
+        ipcRenderer.invoke('openFile', filePath);
+    }
 });
 
 contextBridge.exposeInMainWorld('userDialog', {
