@@ -6,7 +6,7 @@ const { startFileWatcher }      = require('./FileWatcher');
 const {
     exportAsMarkdown, 
     exportAsHtml,
-    openFile,
+    loadEditorWindow,
 } = require('./MarkdownDocument');
 const { markEditorWindowStateEdited } = require('./WindowEditState');
 
@@ -54,7 +54,7 @@ function registerMainProcessServices()
     ipcMain.handle('openFile', (event, filePath)=>{
         const callingWindow = BrowserWindow.fromWebContents(event.sender);
 
-        openFile(callingWindow, filePath);
+        loadEditorWindow(callingWindow, filePath);
     });
 
     ipcMain.handle('watchFile', (event, filePath) =>{

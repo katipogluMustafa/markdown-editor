@@ -1,6 +1,6 @@
 const { app }          = require('electron');
 const { createWindow } = require('./main/EditorWindow');
-const { openFile }     = require('./main/MarkdownDocument');
+const { loadEditorWindow }     = require('./main/MarkdownDocument');
 const {registerMainProcessServices} = require('./main/MainProcessServices');
 
 app.on('ready', ()=>{
@@ -27,7 +27,7 @@ app.on('will-finish-launching', ()=>{
     app.on('open-file', (event, file) =>{
         const window = createWindow();
         window.once('ready-to-show', ()=>{
-            openFile(window, file);
+            loadEditorWindow(window, file);
         });
     });
 });

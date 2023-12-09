@@ -20,11 +20,6 @@ function loadEditorWindow(callingWindow, file)
     }
 }
 
-function openFile(callingWindow, file)
-{
-    loadEditorWindow(callingWindow, file);
-}
-
 function updateWindowTitleWithFileName(callingWindow, filePath)
 {
     let title = 'Ktpql';
@@ -76,14 +71,13 @@ function exportAsMarkdown(callingWindow, filePath, content)
         }
 
         fs.writeFileSync(file, content);
-        openFile(callingWindow, file);
+        loadEditorWindow(callingWindow, file);
     }
     else
     {
         fs.writeFileSync(filePath, content);
-
-        openFile(callingWindow, filePath);
+        loadEditorWindow(callingWindow, filePath);
     }
 }
 
-module.exports = {exportAsMarkdown, exportAsHtml, openFile, loadEditorWindow}
+module.exports = {exportAsMarkdown, exportAsHtml, loadEditorWindow}
