@@ -44,11 +44,10 @@ function createWindow()
 
     newWindow.on('closed', ()=>{
         windows.delete(newWindow);
+        newWindow = null;
     });
 
     windows.add(newWindow);
-
-    newWindow.webContents.openDevTools();
 
     return newWindow;
 }

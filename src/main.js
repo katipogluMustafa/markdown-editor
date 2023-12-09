@@ -9,14 +9,8 @@ const {
     openFile
 } = require('./main/MarkdownDocument');
 
-let mainWindow = null;
-
 app.on('ready', ()=>{
-    mainWindow = createWindow();
-
-    mainWindow.on('closed', ()=>{
-        mainWindow = null;
-    });
+    createWindow();
 });
 
 /* Handle MacOS Window Closed */
