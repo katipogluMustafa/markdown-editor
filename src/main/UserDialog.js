@@ -20,14 +20,8 @@ function getFileFromUser(callingWindow)
     }
 
     let file1 = files[0];
-    try
-    {
-        loadEditorWindow(callingWindow, file1);
-    }
-    catch(error)
-    {
-        console.log(`File Read Error: ${error.message}`);
-    }
+
+    loadEditorWindow(callingWindow, file1);
 }
 
 module.exports = {getFileFromUser}
