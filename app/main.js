@@ -49,7 +49,7 @@ function get_default_hidden_browser_window()
         x:x,
         y:y,
         webPreferences: {
-            nodeIntegration: true,
+            nodeIntegration: false,
             sandbox: false,
             worldSafeExecuteJavascript: false,
             contextIsolation: true,
