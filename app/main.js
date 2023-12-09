@@ -8,12 +8,6 @@ app.on('ready', ()=>{
     mainWindow.on('closed', ()=>{
         mainWindow = null;
     });
-
-    /*
-    * Initialize electron remote dev environment
-    */
-    require('@electron/remote/main').initialize()
-    require("@electron/remote/main").enable(mainWindow.webContents)
 });
 
 /* Handle MacOS Window Closed */
