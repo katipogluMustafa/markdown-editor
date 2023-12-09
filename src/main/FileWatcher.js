@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { readFile } = require('./MarkdownDocument');
+const { loadEditorWindow } = require('./MarkdownDocument');
 
 /*
  * Map of file watchers
@@ -18,7 +18,7 @@ const startFileWatcher = (targetWindow, file) => {
     {   
         if(event === 'change')
         {
-            readFile(targetWindow, file);
+            loadEditorWindow(targetWindow, file);
         }
     });
 

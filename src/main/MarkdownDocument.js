@@ -2,26 +2,27 @@ const { app, dialog} = require('electron');
 const fs = require('fs');
 const path = require('path');
 
-function readFile(callingWindow, file)
-{
-    const fileContent = fs.readFileSync(file).toString();
-
-    app.addRecentDocument(file);
-
-    callingWindow.webContents.send('file-opened', file, fileContent);
-}
-
-function openFile(callingWindow, file)
+function loadEditorWindow(callingWindow, file)
 {
     try
     {
-        readFile(callingWindow, file);
+        const fileContent = fs.readFileSync(file).toString();
+
+        app.addRecentDocument(file);
+
+        callingWindow.webContents.send('file-opened', file, fileContent);
+
         updateWindowTitleWithFileName(callingWindow, file);
     }
     catch(error)
     {
         console.log(`File Read Error: ${error.message}`);
     }
+}
+
+function openFile(callingWindow, file)
+{
+    loadEditorWindow(callingWindow, file);
 }
 
 function updateWindowTitleWithFileName(callingWindow, filePath)
@@ -85,4 +86,4 @@ function exportAsMarkdown(callingWindow, filePath, content)
     }
 }
 
-module.exports = {exportAsMarkdown, exportAsHtml, openFile, readFile}
+module.exports = {exportAsMarkdown, exportAsHtml, openFile, loadEditorWindow}

@@ -1,6 +1,6 @@
 const { app, dialog} = require('electron');
 const fs = require('fs');
-const { readFile } = require('./MarkdownDocument');
+const { loadEditorWindow } = require('./MarkdownDocument');
 
 function getFileFromUser(callingWindow)
 {
@@ -22,7 +22,7 @@ function getFileFromUser(callingWindow)
     let file1 = files[0];
     try
     {
-        readFile(callingWindow, file1);
+        loadEditorWindow(callingWindow, file1);
     }
     catch(error)
     {
