@@ -24,7 +24,7 @@ function registerMainProcessServices()
     });
     
     ipcMain.handle('createWindow', ()=>{
-        return createWindow();
+        createWindow();
     });
     
     ipcMain.handle('setWindowTitle', (event, title)=>{
