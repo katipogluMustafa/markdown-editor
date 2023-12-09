@@ -40,18 +40,19 @@ divider.addEventListener('mousedown', (event) =>{
 
 /* Feature: Window Title */
 
-const path = require('path');
-
 function updateUserInterface()
 {
     let title = 'Ktpql';
     
-    if(filePath)
+    if(window.backend)
     {
-        title = `${path.basename(filePath)} - ${title}`;
-    }
+        if(filePath)
+        {
+            title = `${window.backend.getPathBase(filePath)} - ${title}`;
+        }
 
-    ipcRenderer.invoke('setWindowTitle', title);
+        window.backend.setWindowTitle(title);
+    }
 }
 
 const saveMarkdownButton  = document.querySelector('#save-markdown');
@@ -59,7 +60,10 @@ const revertButton        = document.querySelector('#revert');
 
 function updateUserInterfaceAsEdited()
 {
-    ipcRenderer.invoke('setDocumentEdited');
+    if(window.backend)
+    {
+        window.backend.setDocumentEdited();
+    }
 
     saveMarkdownButton.disabled = false;
     revertButton.disabled       = false;
@@ -72,7 +76,6 @@ function updateUserInterfaceAsNoChange()
 }
 
 /* Markdown Rendering */
-const {ipcRenderer} = require('electron');
 
 const markdownView = document.querySelector('#markdown');
 const htmlView     = document.querySelector('#html');
@@ -80,10 +83,13 @@ const htmlView     = document.querySelector('#html');
 markdownView.addEventListener('keyup', (event)=>{
     const markdownContent = event.target.value;
     
-    ipcRenderer.invoke('renderMarkdownToHtml', markdownContent).then(result=>
+    if(window.backend)
     {
-        htmlView.innerHTML = result;
-    });
+        window.backend.renderMarkdownToHtml(markdownContent).then(result=>
+        {
+            htmlView.innerHTML = result;
+        });
+    }
 
     if(markdownContent === fileCachedContent)
     {
@@ -98,52 +104,76 @@ markdownView.addEventListener('keyup', (event)=>{
 const openFileButton = document.querySelector('#open-file');
 
 openFileButton.addEventListener('click', ()=>{
-    ipcRenderer.invoke('getFileFromUser');
+    if(window.backend)
+    {
+        window.backend.getFileFromUser();
+    }
 });
 
-ipcRenderer.on('file-opened', (event, file, content) =>{
+const onFileOpened = (event, file, content) =>{
     filePath          = file;
     fileCachedContent = content;
 
     markdownView.value = content;
-    ipcRenderer.invoke('renderMarkdownToHtml', content).then(result=>{
-        htmlView.innerHTML = result;
-    });
+
+    if(window.backend)
+    {
+        window.backend.renderMarkdownToHtml(content).then(result=>
+        {
+            htmlView.innerHTML = result;
+        });
+    }
 
     updateUserInterface();
-});
+};
+
+if(window.backend)
+{
+    window.backend.setFileOpenHandler(onFileOpened);
+}
 
 /* Feature: New File */
 
 const newFileButton       = document.querySelector('#new-file');
 
 newFileButton.addEventListener('click', ()=>{
-    ipcRenderer.invoke('createWindow');
+    if(window.backend)
+    {
+        window.backend.createWindow();
+    }
 });
 
 /* Feature: Save File */
 const saveHtmlButton      = document.querySelector('#save-html');
 saveHtmlButton.addEventListener('click', ()=>{
     let htmlContent = htmlView.innerHTML;
-
-    ipcRenderer.invoke('exportAsHtml', htmlContent);
+    if(window.backend)
+    {
+        window.backend.exportAsHtml(htmlContent);
+    }
 });
 
 
 /* Feature: Save as Markdown File */
 saveMarkdownButton.addEventListener('click', ()=>{
     let fileContent = markdownView.value;
-
-    ipcRenderer.invoke('ExportAsMarkdown', filePath, fileContent);
+    if(window.backend)
+    {
+        window.backend.ExportAsMarkdown(filePath, fileContent);
+    }
 });
 
 /* Feature: Revert File Contents */
 revertButton.addEventListener('click', ()=>{
     markdownView.value = fileCachedContent;
 
-    ipcRenderer.invoke('renderMarkdownToHtml', fileCachedContent).then(result=>{
-        htmlView.innerHTML = result;
-    });
+    if(window.backend)
+    {
+        window.backend.renderMarkdownToHtml(fileCachedContent).then(result=>
+        {
+            htmlView.innerHTML = result;
+        });
+    }
 });
 
 

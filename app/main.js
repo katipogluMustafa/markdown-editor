@@ -58,7 +58,8 @@ function get_default_hidden_browser_window()
             nodeIntegration: true,
             sandbox: false,
             worldSafeExecuteJavascript: false,
-            contextIsolation: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js')
         },
         show: false,
     });
@@ -138,8 +139,8 @@ function getFileFromUser(callingWindow)
     {
         const fileContent = fs.readFileSync(file1).toString();
 
-        console.log(file1);
-        console.log(fileContent);
+        //console.log(file1);
+        //console.log(fileContent);
 
         mainWindow.webContents.send('file-opened', file1, fileContent);
         app.addRecentDocument(file1);
@@ -172,6 +173,8 @@ function createWindow()
     });
 
     windows.add(newWindow);
+
+    newWindow.webContents.openDevTools();
 
     return newWindow;
 }
