@@ -260,7 +260,7 @@ markdownView.addEventListener('drop', (event)=>{
     {
         if(window.markdownDocument)
         {
-            window.markdownDocument.open(file.path);
+            window.markdownDocument.load(file.path);
         }
     }
     else

@@ -40,8 +40,8 @@ contextBridge.exposeInMainWorld('markdownDocument', {
     render: (markdownContent) =>{
         return ipcRenderer.invoke('renderMarkdownToHtml', markdownContent);
     },
-    open: (filePath) => {
-        ipcRenderer.invoke('openFile', filePath);
+    load: (filePath) => {
+        ipcRenderer.invoke('loadFile', filePath);
     },
     /*
      * Watch markdown document for changes.

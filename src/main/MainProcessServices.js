@@ -51,7 +51,7 @@ function registerMainProcessServices()
         exportAsMarkdown(callingWindow, filePath, content);
     })
 
-    ipcMain.handle('openFile', (event, filePath)=>{
+    ipcMain.handle('loadFile', (event, filePath)=>{
         const callingWindow = BrowserWindow.fromWebContents(event.sender);
 
         loadEditorWindow(callingWindow, filePath);
