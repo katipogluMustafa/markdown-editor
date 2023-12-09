@@ -25,7 +25,7 @@ function get_default_hidden_browser_window()
             sandbox: false,
             worldSafeExecuteJavascript: false,
             contextIsolation: true,
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, '../app/preload.js')
         },
         show: false,
     });
