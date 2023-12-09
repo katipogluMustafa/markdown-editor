@@ -2,9 +2,9 @@ const { app, BrowserWindow, dialog} = require('electron');
 const path = require('path');
 const { stopFileWatcher } = require('./FileWatcher');
 const { 
-    initWindowState, 
+    initWindowEditState, 
     isEditorWindowStateEdited 
-} = require('./EditorWindowState');
+} = require('./WindowEditState');
 
 function get_default_hidden_browser_window()
 {
@@ -44,7 +44,7 @@ function createWindow()
 {
     let newWindow = get_default_hidden_browser_window();
     
-    initWindowState(newWindow);
+    initWindowEditState(newWindow);
 
     newWindow.webContents.loadFile('app/index.html');
 

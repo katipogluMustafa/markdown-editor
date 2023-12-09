@@ -1,6 +1,6 @@
 const windowEditStates = new Map();
 
-const initWindowState = (currentWindow)=>{
+const initWindowEditState = (currentWindow)=>{
     windowEditStates.set(currentWindow, false);
 }
 
@@ -14,4 +14,4 @@ const markEditorWindowStateEdited = (currentWindow)=>
     windowEditStates.set(currentWindow, true);
 }
 
-module.exports = {initWindowState, isEditorWindowStateEdited, markEditorWindowStateEdited}
+module.exports = {initWindowEditState, isEditorWindowStateEdited, markEditorWindowStateEdited}

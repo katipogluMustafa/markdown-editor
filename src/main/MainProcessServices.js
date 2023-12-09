@@ -8,7 +8,7 @@ const {
     exportAsHtml,
     openFile,
 } = require('./MarkdownDocument');
-const { markEditorWindowStateEdited } = require('./EditorWindowState');
+const { markEditorWindowStateEdited } = require('./WindowEditState');
 
 function registerMainProcessServices()
 {
