@@ -5,6 +5,7 @@ const {
     initWindowEditState, 
     isEditorWindowStateEdited 
 } = require('./WindowEditState');
+const { shouldExitFromApp } = require('./UserDialog');
 
 function get_default_hidden_browser_window()
 {
@@ -63,16 +64,7 @@ function createWindow()
         {
             event.preventDefault();
 
-            const selectedChoice = dialog.showMessageBoxSync(newWindow, {
-                type: 'warning',
-                title: 'Quit with Unsaved Changes?',
-                message: 'Document has unsaved changes. The changes will be lost if they are not saved.',
-                buttons: ['Quit Anyway', 'Return Back to App'],
-                defaultId: 1,
-                cancelId: 1
-            });
-
-            if(selectedChoice === 0)
+            if(shouldExitFromApp(newWindow))
             {
                 newWindow.destroy();
             }

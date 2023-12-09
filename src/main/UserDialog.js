@@ -22,4 +22,24 @@ function getFileFromUser(callingWindow)
     return file1;
 }
 
-module.exports = {getFileFromUser}
+const shouldExitFromApp = (currentWindow)=>{
+    let result = false;
+
+    const selectedChoice = dialog.showMessageBoxSync(currentWindow, {
+        type: 'warning',
+        title: 'Quit with Unsaved Changes?',
+        message: 'Document has unsaved changes. The changes will be lost if they are not saved.',
+        buttons: ['Quit Anyway', 'Return Back to App'],
+        defaultId: 1,
+        cancelId: 1
+    });
+
+    if(selectedChoice === 0)
+    {
+        result = true;
+    }
+
+    return result;
+}
+
+module.exports = {getFileFromUser, shouldExitFromApp}
