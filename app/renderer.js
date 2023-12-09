@@ -83,9 +83,9 @@ const htmlView     = document.querySelector('#html');
 markdownView.addEventListener('keyup', (event)=>{
     const markdownContent = event.target.value;
     
-    if(window.backend)
+    if(window.markdownDocument)
     {
-        window.backend.renderMarkdownToHtml(markdownContent).then(result=>
+        window.markdownDocument.render(markdownContent).then(result=>
         {
             htmlView.innerHTML = result;
         });
@@ -104,9 +104,9 @@ markdownView.addEventListener('keyup', (event)=>{
 const openFileButton = document.querySelector('#open-file');
 
 openFileButton.addEventListener('click', ()=>{
-    if(window.backend)
+    if(window.userDialog)
     {
-        window.backend.getFileFromUser();
+        window.userDialog.getFile();
     }
 });
 
@@ -116,9 +116,9 @@ const onFileOpened = (event, file, content) =>{
 
     markdownView.value = content;
 
-    if(window.backend)
+    if(window.markdownDocument)
     {
-        window.backend.renderMarkdownToHtml(content).then(result=>
+        window.markdownDocument.render(content).then(result=>
         {
             htmlView.innerHTML = result;
         });
@@ -127,9 +127,9 @@ const onFileOpened = (event, file, content) =>{
     updateUserInterface();
 };
 
-if(window.backend)
+if(window.eventHandler)
 {
-    window.backend.setFileOpenHandler(onFileOpened);
+    window.eventHandler.setFileOpenHandler(onFileOpened);
 }
 
 /* Feature: New File */
@@ -147,9 +147,9 @@ newFileButton.addEventListener('click', ()=>{
 const saveHtmlButton      = document.querySelector('#save-html');
 saveHtmlButton.addEventListener('click', ()=>{
     let htmlContent = htmlView.innerHTML;
-    if(window.backend)
+    if(window.htmlDocument)
     {
-        window.backend.exportAsHtml(htmlContent);
+        window.htmlDocument.export(htmlContent);
     }
 });
 
@@ -157,9 +157,9 @@ saveHtmlButton.addEventListener('click', ()=>{
 /* Feature: Save as Markdown File */
 saveMarkdownButton.addEventListener('click', ()=>{
     let fileContent = markdownView.value;
-    if(window.backend)
+    if(window.markdownDocument)
     {
-        window.backend.ExportAsMarkdown(filePath, fileContent);
+        window.markdownDocument.export(filePath, fileContent);
     }
 });
 
@@ -167,9 +167,9 @@ saveMarkdownButton.addEventListener('click', ()=>{
 revertButton.addEventListener('click', ()=>{
     markdownView.value = fileCachedContent;
 
-    if(window.backend)
+    if(window.markdownDocument)
     {
-        window.backend.renderMarkdownToHtml(fileCachedContent).then(result=>
+        window.markdownDocument.render(fileCachedContent).then(result=>
         {
             htmlView.innerHTML = result;
         });

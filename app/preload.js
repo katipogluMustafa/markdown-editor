@@ -21,19 +21,34 @@ contextBridge.exposeInMainWorld('appWindow', {
     },
 });
 
-contextBridge.exposeInMainWorld('backend', {
-    renderMarkdownToHtml: (markdownContent) =>{
-        return ipcRenderer.invoke('renderMarkdownToHtml', markdownContent);
-    },
-    getFileFromUser: () => {
-        ipcRenderer.invoke('getFileFromUser');
-    },
-    exportAsHtml: (htmlContent) => {
+contextBridge.exposeInMainWorld('htmlDocument', {
+    /*
+     * Export the rendered-markdown document.
+     */
+    export: (htmlContent) => {
         ipcRenderer.invoke('exportAsHtml', htmlContent);
     },
-    ExportAsMarkdown: (filePath, fileContent) => {
+});
+
+contextBridge.exposeInMainWorld('markdownDocument', {
+    export: (filePath, fileContent) => {
         ipcRenderer.invoke('ExportAsMarkdown', filePath, fileContent);
     },
+    /*
+     * Render markdown document to HTML.
+     */
+    render: (markdownContent) =>{
+        return ipcRenderer.invoke('renderMarkdownToHtml', markdownContent);
+    },
+});
+
+contextBridge.exposeInMainWorld('userDialog', {
+    getFile: () => {
+        ipcRenderer.invoke('getFileFromUser');
+    },
+});
+
+contextBridge.exposeInMainWorld('eventHandler', {
     setFileOpenHandler: (handler) => {
         ipcRenderer.on('file-opened', handler);
     }
