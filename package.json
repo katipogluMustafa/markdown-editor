@@ -2,7 +2,7 @@
   "name": "markdown-editor",
   "version": "0.1.0",
   "description": "Basic markdown editor",
-  "main": "src/main.js",
+  "main": "src/ElectronApp.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
