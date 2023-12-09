@@ -1,26 +1,32 @@
 const {contextBridge, ipcRenderer} = require('electron');
 const path = require('path');
 
-contextBridge.exposeInMainWorld('backend', {
-    setWindowTitle: (title) =>
-    {    
-        ipcRenderer.invoke('setWindowTitle', title)
-    },
-    setDocumentEdited: () => {
-        ipcRenderer.invoke('setDocumentEdited');
-    },
-    getPathBase: (filePath) =>
+contextBridge.exposeInMainWorld('path', {
+    getBase: (filePath) =>
     {
         return path.basename(filePath);
     },
+});
+
+contextBridge.exposeInMainWorld('appWindow', {
+    create: () => {
+        ipcRenderer.invoke('createWindow');
+    },
+    setTitle: (title) =>
+    {    
+        ipcRenderer.invoke('setWindowTitle', title)
+    },
+    setEdited: () => {
+        ipcRenderer.invoke('setDocumentEdited');
+    },
+});
+
+contextBridge.exposeInMainWorld('backend', {
     renderMarkdownToHtml: (markdownContent) =>{
         return ipcRenderer.invoke('renderMarkdownToHtml', markdownContent);
     },
     getFileFromUser: () => {
         ipcRenderer.invoke('getFileFromUser');
-    },
-    createWindow: () => {
-        ipcRenderer.invoke('createWindow');
     },
     exportAsHtml: (htmlContent) => {
         ipcRenderer.invoke('exportAsHtml', htmlContent);

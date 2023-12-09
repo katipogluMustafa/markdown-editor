@@ -44,14 +44,14 @@ function updateUserInterface()
 {
     let title = 'Ktpql';
     
-    if(window.backend)
+    if(window.appWindow && window.path)
     {
         if(filePath)
         {
-            title = `${window.backend.getPathBase(filePath)} - ${title}`;
+            title = `${window.path.getBase(filePath)} - ${title}`;
         }
 
-        window.backend.setWindowTitle(title);
+        window.appWindow.setTitle(title);
     }
 }
 
@@ -60,9 +60,9 @@ const revertButton        = document.querySelector('#revert');
 
 function updateUserInterfaceAsEdited()
 {
-    if(window.backend)
+    if(window.appWindow)
     {
-        window.backend.setDocumentEdited();
+        window.appWindow.setEdited();
     }
 
     saveMarkdownButton.disabled = false;
@@ -137,9 +137,9 @@ if(window.backend)
 const newFileButton       = document.querySelector('#new-file');
 
 newFileButton.addEventListener('click', ()=>{
-    if(window.backend)
+    if(window.appWindow)
     {
-        window.backend.createWindow();
+        window.appWindow.create();
     }
 });
 
