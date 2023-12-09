@@ -53,7 +53,7 @@ contextBridge.exposeInMainWorld('markdownDocument', {
 
 contextBridge.exposeInMainWorld('userDialog', {
     getFile: () => {
-        ipcRenderer.invoke('getFileFromUser');
+        return ipcRenderer.invoke('getFileFromUser');
     },
 });
 

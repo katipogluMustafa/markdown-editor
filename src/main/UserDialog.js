@@ -1,6 +1,4 @@
-const { app, dialog} = require('electron');
-const fs = require('fs');
-const { loadEditorWindow } = require('./MarkdownDocument');
+const { dialog} = require('electron');
 
 function getFileFromUser(callingWindow)
 {
@@ -16,12 +14,12 @@ function getFileFromUser(callingWindow)
 
     if(!files)
     {
-        return;
+        return null;
     }
 
     let file1 = files[0];
 
-    loadEditorWindow(callingWindow, file1);
+    return file1;
 }
 
 module.exports = {getFileFromUser}

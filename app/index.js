@@ -104,9 +104,21 @@ markdownView.addEventListener('keyup', (event)=>{
 const openFileButton = document.querySelector('#open-file');
 
 openFileButton.addEventListener('click', ()=>{
+    let file = null;
+
     if(window.userDialog)
     {
-        window.userDialog.getFile();
+        window.userDialog.getFile().then(result=>{
+            file = result;
+
+            if(null != file)
+            {
+                if(window.markdownDocument)
+                {
+                    window.markdownDocument.load(file);
+                }
+            }
+        });
     }
 });
 
