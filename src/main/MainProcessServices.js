@@ -8,6 +8,7 @@ const {
     exportAsHtml,
     openFile,
 } = require('./MarkdownDocument');
+const { markEditorWindowStateEdited } = require('./EditorWindowState');
 
 function registerMainProcessServices()
 {
@@ -35,8 +36,7 @@ function registerMainProcessServices()
     ipcMain.handle('setDocumentEdited', (event)=>
     {
         const callingWindow = BrowserWindow.fromWebContents(event.sender);
-    
-        callingWindow.setDocumentEdited(true);
+        markEditorWindowStateEdited(callingWindow);
     });
     
     ipcMain.handle('exportAsHtml', (event, htmlContent)=>{

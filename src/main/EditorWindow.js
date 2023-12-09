@@ -1,6 +1,10 @@
-const { app, BrowserWindow} = require('electron');
+const { app, BrowserWindow, dialog} = require('electron');
 const path = require('path');
-const {stopFileWatcher} = require('./FileWatcher');
+const { stopFileWatcher } = require('./FileWatcher');
+const { 
+    initWindowState, 
+    isEditorWindowStateEdited 
+} = require('./EditorWindowState');
 
 function get_default_hidden_browser_window()
 {
@@ -40,6 +44,8 @@ function createWindow()
 {
     let newWindow = get_default_hidden_browser_window();
     
+    initWindowState(newWindow);
+
     newWindow.webContents.loadFile('app/index.html');
 
     newWindow.once('ready-to-show', ()=>{
@@ -50,6 +56,27 @@ function createWindow()
         windows.delete(newWindow);
         stopFileWatcher(newWindow);
         newWindow = null;
+    });
+
+    newWindow.on('close', (event)=>{
+        if(isEditorWindowStateEdited(newWindow))
+        {
+            event.preventDefault();
+
+            const selectedChoice = dialog.showMessageBoxSync(newWindow, {
+                type: 'warning',
+                title: 'Quit with Unsaved Changes?',
+                message: 'Document has unsaved changes. The changes will be lost if they are not saved.',
+                buttons: ['Quit Anyway', 'Return Back to App'],
+                defaultId: 1,
+                cancelId: 1
+            });
+
+            if(selectedChoice === 0)
+            {
+                newWindow.destroy();
+            }
+        }
     });
 
     newWindow.webContents.openDevTools();
