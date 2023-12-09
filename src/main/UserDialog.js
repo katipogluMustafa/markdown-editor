@@ -1,7 +1,6 @@
 const { dialog} = require('electron');
 
-function getFileFromUser(callingWindow)
-{
+const getFileFromUser = (callingWindow)=>{
     const is_operation_canceled = false;
 
     const files = dialog.showOpenDialogSync(callingWindow, {
