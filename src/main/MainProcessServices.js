@@ -1,6 +1,6 @@
 const { BrowserWindow, ipcMain} = require('electron');
 const { createWindow }          = require('./EditorWindow');
-const { getFileFromUser }       = require('./UserDialog');
+const { getFileFromUser, shouldDiscardDataUponNewFileOpen, shouldDiscardDataUponFileOverwrite }       = require('./UserDialog');
 const { parseMarkdownToHtml }   = require('./MarkdownParser');
 const { startFileWatcher }      = require('./FileWatcher');
 const {
@@ -61,6 +61,18 @@ function registerMainProcessServices()
         const callingWindow = BrowserWindow.fromWebContents(event.sender);
 
         startFileWatcher(callingWindow, filePath);
+    });
+
+    ipcMain.handle('askDiscardUponFileOpen', (event) =>{
+        const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+        return shouldDiscardDataUponNewFileOpen(callingWindow);
+    });
+
+    ipcMain.handle('askDiscardUponOverwrite', (event) =>{
+        const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+        return shouldDiscardDataUponFileOverwrite(callingWindow);
     });
 }
 

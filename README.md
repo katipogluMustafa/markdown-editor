@@ -7,3 +7,4 @@ This basic markdown editor application is part of the `Electron In Action` curri
 ![](imgs/v0.1_markdown_editor.gif)
 
 ## v0.2
+ddd

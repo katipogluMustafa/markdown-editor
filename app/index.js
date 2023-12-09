@@ -38,23 +38,6 @@ divider.addEventListener('mousedown', (event) =>{
     document.addEventListener('mouseup', onMouseUp);
 });
 
-/* Feature: Window Title */
-
-function updateUserInterface()
-{
-    let title = 'Ktpql';
-    
-    if(window.appWindow && window.path)
-    {
-        if(filePath)
-        {
-            title = `${window.path.getBase(filePath)} - ${title}`;
-        }
-
-        window.appWindow.setTitle(title);
-    }
-}
-
 const saveMarkdownButton  = document.querySelector('#save-markdown');
 const revertButton        = document.querySelector('#revert');
 
@@ -122,7 +105,7 @@ openFileButton.addEventListener('click', ()=>{
     }
 });
 
-const onFileOpened = (event, file, content) =>{
+const renderFile = (file, content) => {
     filePath          = file;
     fileCachedContent = content;
 
@@ -130,20 +113,42 @@ const onFileOpened = (event, file, content) =>{
 
     if(window.markdownDocument)
     {
-        window.markdownDocument.render(content).then(result=>
-        {
+        window.markdownDocument.render(content).then(result=>{
             htmlView.innerHTML = result;
         });
 
         window.markdownDocument.watch(filePath);
     }
+}
 
-    updateUserInterface();
+const onFileOpened = (event, file, content) =>{
+    if(window.userDialog)
+    {
+        window.userDialog.askShouldDiscardUponFileOpen().then(result => {
+            if(result)
+            {
+                renderFile(file, content);
+            }
+        });
+    }
+};
+
+const onFileChanged = (event, file, content) =>{
+    if(window.userDialog)
+    {
+        window.userDialog.askShouldDiscardUponOverwrite().then(result => {
+            if(result)
+            {
+                renderFile(file, content);
+            }
+        });
+    }
 };
 
 if(window.eventHandler)
 {
     window.eventHandler.setFileOpenHandler(onFileOpened);
+    window.eventHandler.setFileChangedHandler(onFileChanged);
 }
 
 /* Feature: New File */

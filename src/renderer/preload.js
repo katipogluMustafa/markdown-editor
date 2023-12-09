@@ -55,10 +55,19 @@ contextBridge.exposeInMainWorld('userDialog', {
     getFile: () => {
         return ipcRenderer.invoke('getFileFromUser');
     },
+    askShouldDiscardUponFileOpen: () => {
+        return ipcRenderer.invoke('askDiscardUponFileOpen');
+    },
+    askShouldDiscardUponOverwrite: ()=> {
+        return ipcRenderer.invoke('askDiscardUponOverwrite');
+    }
 });
 
 contextBridge.exposeInMainWorld('eventHandler', {
     setFileOpenHandler: (handler) => {
         ipcRenderer.on('file-opened', handler);
-    }
+    },
+    setFileChangedHandler: (handler) => {
+        ipcRenderer.on('file-changed', handler);
+    },
 });

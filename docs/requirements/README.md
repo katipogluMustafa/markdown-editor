@@ -37,3 +37,4 @@
 
 **Data Safety**
 * [REQ15] If file has unsaved changes when the application is being closed, the decision related to whether to discard the change or save the data should be directed to the user.
+* [REQ16] If file has unsaved changes when the user requested file open, the decision related to whether to discard the change or save the data should be directed to the user.
