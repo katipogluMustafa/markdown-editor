@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain} = require('electron');
+const { app, BrowserWindow} = require('electron');
 const path = require('path');
 
 function get_default_hidden_browser_window()

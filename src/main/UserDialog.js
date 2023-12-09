@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog} = require('electron');
+const { app, dialog} = require('electron');
 const fs = require('fs');
 
 function getFileFromUser(callingWindow)

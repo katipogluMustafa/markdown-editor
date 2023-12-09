@@ -1,13 +1,7 @@
-const { app, BrowserWindow, dialog, ipcMain} = require('electron');
-const {
-    get_default_hidden_browser_window,
-    createWindow,  
-} = require('./main/EditorWindow');
-
-const {
-    getFileFromUser,
-} = require('./main/UserDialog');
-const {parseMarkdownToHtml} = require('./main/MarkdownParser');
+const { app, BrowserWindow, ipcMain} = require('electron');
+const { createWindow }        = require('./main/EditorWindow');
+const { getFileFromUser }     = require('./main/UserDialog');
+const { parseMarkdownToHtml } = require('./main/MarkdownParser');
 
 const {
     exportAsMarkdown, 
