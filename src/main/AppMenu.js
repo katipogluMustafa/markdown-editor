@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, shell } = require('electron');
+const { isWindowFileOpen } = require('./WindowFileOpenState');
 
 const hasOpenWindows = ()=>{
     let result = false;
@@ -11,6 +12,11 @@ const hasOpenWindows = ()=>{
     return result;
 }
 
+const hasOpenFileInWindow = () => {
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+
+    return isWindowFileOpen(focusedWindow);
+}
 const createApplicationMenu = ()=>{
     const template = [
         {
@@ -72,7 +78,8 @@ const createApplicationMenu = ()=>{
                         }
     
                         focusedWindow.webContents.send('show-file');
-                    }
+                    },
+                    enabled: hasOpenFileInWindow(),
                 },
                 {
                     label: 'Open in Default Editor',
@@ -84,7 +91,8 @@ const createApplicationMenu = ()=>{
                         }
     
                         focusedWindow.webContents.send('open-in-default');
-                    }
+                    },
+                    enabled: hasOpenFileInWindow(),
                 }
             ],
         },
