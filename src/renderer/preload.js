@@ -105,7 +105,7 @@ contextBridge.exposeInMainWorld('eventHandler', {
     },
     setOpenInNewWindowHandler: (handler) => {
         ipcRenderer.on('open-in-new-window', handler);
-    }
+    },
 });
 
 contextBridge.exposeInMainWorld('menu', {

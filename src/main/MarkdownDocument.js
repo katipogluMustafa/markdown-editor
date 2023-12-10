@@ -1,6 +1,7 @@
 const { app, dialog} = require('electron');
 const fs = require('fs');
 const path = require('path');
+const { markWindowFileOpen } = require('./WindowFileOpenState');
 
 function loadEditorWindow(callingWindow, file)
 {
@@ -9,6 +10,7 @@ function loadEditorWindow(callingWindow, file)
         const fileContent = fs.readFileSync(file).toString();
 
         app.addRecentDocument(file);
+        markWindowFileOpen(callingWindow);
 
         callingWindow.webContents.send('file-opened', file, fileContent);
 

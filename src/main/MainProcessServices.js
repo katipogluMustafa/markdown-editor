@@ -9,7 +9,8 @@ const {
     loadEditorWindow,
 } = require('./MarkdownDocument');
 const { markEditorWindowStateEdited } = require('./WindowEditState');
-const { markdownContextMenu } = require('./ContextMenu');
+const { fileClosedMarkdownContextMenu, fileOpenMarkdownContextMenu } = require('./ContextMenu');
+const { isWindowFileOpen } = require('./WindowFileOpenState');
 
 function registerMainProcessServices()
 {
@@ -92,7 +93,16 @@ function registerMainProcessServices()
     });
 
     ipcMain.handle('revealEditorContextMenu', (event) => {
-        markdownContextMenu.popup();
+        const callingWindow = BrowserWindow.fromWebContents(event.sender);
+
+        if(isWindowFileOpen(callingWindow))
+        {
+            fileOpenMarkdownContextMenu().popup();
+        }
+        else
+        {
+            fileClosedMarkdownContextMenu().popup();
+        }
     });
 }
 

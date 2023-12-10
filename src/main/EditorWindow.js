@@ -6,6 +6,7 @@ const {
     isEditorWindowStateEdited 
 } = require('./WindowEditState');
 const { shouldExitFromApp } = require('./UserDialog');
+const { initWindowFileOpenState } = require('./WindowFileOpenState');
 
 function get_default_hidden_browser_window()
 {
@@ -46,6 +47,7 @@ function createWindow()
     let newWindow = get_default_hidden_browser_window();
     
     initWindowEditState(newWindow);
+    initWindowFileOpenState(newWindow);
 
     newWindow.webContents.loadFile('app/index.html');
 
