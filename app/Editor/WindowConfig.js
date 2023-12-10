@@ -8,4 +8,5 @@ if(window.eventHandler)
     window.eventHandler.setSaveHtmlHandler(handleSaveHtml);
     window.eventHandler.setShowFileHandler(showFileInExplorer);
     window.eventHandler.setOpenInDefaultAppHandler(openInDefaultApp);
+    window.eventHandler.setOpenInNewWindowHandler(handleOpenInNewWindow);
 }

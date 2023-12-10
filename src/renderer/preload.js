@@ -19,6 +19,9 @@ contextBridge.exposeInMainWorld('appWindow', {
     setEdited: () => {
         ipcRenderer.invoke('setDocumentEdited');
     },
+    openInNewWindow: () => {
+        ipcRenderer.invoke('openInNewWindow');
+    }
 });
 
 contextBridge.exposeInMainWorld('osExplorer', {
@@ -100,4 +103,7 @@ contextBridge.exposeInMainWorld('eventHandler', {
     setOpenInDefaultAppHandler: (handler) => {
         ipcRenderer.on('open-in-default', handler);
     },
+    setOpenInNewWindowHandler: (handler) => {
+        ipcRenderer.on('open-in-new-window', handler);
+    }
 });

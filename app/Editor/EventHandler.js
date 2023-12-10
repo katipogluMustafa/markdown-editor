@@ -9,6 +9,13 @@ const handleNewFile = ()=>{
     }
 }
 
+const handleOpenInNewWindow = ()=>{
+    if(window.appWindow)
+    {
+        window.appWindow.openInNewWindow();
+    }
+}
+
 const renderFile = (file, content) => {
     filePath          = file;
     fileCachedContent = content;

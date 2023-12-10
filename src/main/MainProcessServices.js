@@ -26,6 +26,13 @@ function registerMainProcessServices()
     ipcMain.handle('createWindow', ()=>{
         createWindow();
     });
+
+    ipcMain.handle('openInNewWindow', ()=>{
+        let newWindow = createWindow();
+        newWindow.on('show', ()=>{
+            newWindow.webContents.send('open-file'); 
+        });
+    });
     
     ipcMain.handle('setWindowTitle', (event, title)=>{
         const callingWindow = BrowserWindow.fromWebContents(event.sender);

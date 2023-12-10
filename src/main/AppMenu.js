@@ -12,17 +12,38 @@ const template = [
             {
                 label: 'Open File',
                 accelerator: 'CommandOrControl+O',
-                click(item, focusedWindow) { focusedWindow.webContents.send('open-file'); }
+                click(item, focusedWindow) { 
+                    if(focusedWindow)
+                    {
+                        focusedWindow.webContents.send('open-file'); 
+                    }
+
+                    focusedWindow.webContents.send('open-in-new-window'); 
+                }
             },
             {
                 label: 'Save File',
                 accelerator: 'CommandOrControl+S',
-                click(item, focusedWindow) {focusedWindow.webContents.send('save-file'); }
+                click(item, focusedWindow) {
+                    if(!focusedWindow)
+                    {
+                        return dialog.showErrorBox('Cannot Save', 'There is currently no activate document to save.');
+                    }
+
+                    focusedWindow.webContents.send('save-file'); 
+                }
             },
             {
                 label: 'Export HTML',
                 accelerator: 'CommandOrControl+Shift+S',
-                click(item, focusedWindow) { focusedWindow.webContents.send('save-html'); }
+                click(item, focusedWindow) { 
+                    if(!focusedWindow)
+                    {
+                        return dialog.showErrorBox('Cannot export', 'There is currently no activate document to export.');
+                    }
+
+                    focusedWindow.webContents.send('save-html'); 
+                }
             },
             {
                 type: 'separator',
