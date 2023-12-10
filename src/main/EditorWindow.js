@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog} = require('electron');
+const { app, BrowserWindow, dialog, Menu} = require('electron');
 const path = require('path');
 const { stopFileWatcher } = require('./FileWatcher');
 const { 
@@ -7,6 +7,7 @@ const {
 } = require('./WindowEditState');
 const { shouldExitFromApp } = require('./UserDialog');
 const { initWindowFileOpenState } = require('./WindowFileOpenState');
+const { createApplicationMenu } = require('./AppMenu');
 
 function get_default_hidden_browser_window()
 {
@@ -52,7 +53,12 @@ function createWindow()
     newWindow.webContents.loadFile('app/index.html');
 
     newWindow.once('ready-to-show', ()=>{
+        createApplicationMenu();
         newWindow.show();
+    });
+
+    newWindow.on('focus', ()=> {
+        createApplicationMenu();
     });
 
     newWindow.on('closed', ()=>{
