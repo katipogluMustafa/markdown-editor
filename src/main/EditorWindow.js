@@ -64,6 +64,7 @@ function createWindow()
     newWindow.on('closed', ()=>{
         windows.delete(newWindow);
         stopFileWatcher(newWindow);
+        createApplicationMenu();
         newWindow = null;
     });
 
