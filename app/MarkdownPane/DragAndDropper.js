@@ -1,3 +1,9 @@
+
+/* Feature: Markdown Document Drag and Drop
+ *
+ * This source file implements drag and drop feature for markdown pane.
+ */
+
 const markdownPanel = document.querySelector('#markdown');
 
 document.addEventListener('dragstart', event => event.preventDefault());

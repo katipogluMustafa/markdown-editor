@@ -77,44 +77,6 @@ const handleSaveHtml = () => {
     }
 }
 
-function updateUserInterfaceAsEdited()
-{
-    if(window.appWindow)
-    {
-        window.appWindow.setEdited();
-    }
-
-    saveMarkdownButton.disabled = false;
-    revertButton.disabled       = false;
-}
-
-function updateUserInterfaceAsNoChange()
-{
-    saveMarkdownButton.disabled = true;
-    revertButton.disabled       = true;
-}
-
-const markdownViewKeyUpHandler = (event)=>{
-    const markdownContent = event.target.value;
-    
-    if(window.markdownDocument)
-    {
-        window.markdownDocument.render(markdownContent).then(result=>
-        {
-            htmlView.innerHTML = result;
-        });
-    }
-
-    if(markdownContent === fileCachedContent)
-    {
-        updateUserInterfaceAsNoChange();
-    }
-    else
-    {
-        updateUserInterfaceAsEdited();
-    }
-}
-
 const handleOpenFile = ()=>{
     let file = null;
 
