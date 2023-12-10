@@ -1,9 +1,11 @@
-const { app }          = require('electron');
+const { app, Menu }          = require('electron');
 const { createWindow } = require('./main/EditorWindow');
 const { loadEditorWindow }     = require('./main/MarkdownDocument');
 const {registerMainProcessServices} = require('./main/MainProcessServices');
+const {applicationMenu} = require('./main/AppMenu');
 
 app.on('ready', ()=>{
+    Menu.setApplicationMenu(applicationMenu);
     createWindow();
 });
 
