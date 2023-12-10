@@ -71,8 +71,6 @@ function createWindow()
         }
     });
 
-    newWindow.webContents.openDevTools();
-
     windows.add(newWindow);
 
     return newWindow;

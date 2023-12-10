@@ -70,4 +70,16 @@ contextBridge.exposeInMainWorld('eventHandler', {
     setFileChangedHandler: (handler) => {
         ipcRenderer.on('file-changed', handler);
     },
+    setCreateWindowHandler: (handler) => {
+        ipcRenderer.on('create-window', handler);
+    },
+    setOpenFileHandler: (handler) => {
+        ipcRenderer.on('open-file', handler);
+    },
+    setSaveFileHandler: (handler) => {
+        ipcRenderer.on('save-file', handler);
+    },
+    setSaveHtmlHandler: (handler) => {
+        ipcRenderer.on('save-html', handler);
+    }
 });

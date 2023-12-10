@@ -2,6 +2,31 @@ const { app, BrowserWindow, Menu, shell } = require('electron');
 
 const template = [
     {
+        'label': 'File',
+        submenu: [
+            {
+                label: 'New File',
+                accelerator: 'CommandOrControl+N',
+                click(item, focusedWindow){ focusedWindow.webContents.send('create-window'); }
+            },
+            {
+                label: 'Open File',
+                accelerator: 'CommandOrControl+O',
+                click(item, focusedWindow) { focusedWindow.webContents.send('open-file'); }
+            },
+            {
+                label: 'Save File',
+                accelerator: 'CommandOrControl+S',
+                click(item, focusedWindow) {focusedWindow.webContents.send('save-file'); }
+            },
+            {
+                label: 'Export HTML',
+                accelerator: 'CommandOrControl+Shift+S',
+                click(item, focusedWindow) { focusedWindow.webContents.send('save-html'); }
+            }
+        ],
+    },
+    {
         label: 'Edit',
         submenu: [
             {
@@ -39,6 +64,7 @@ const template = [
     },
     {
         label: 'Window',
+        role: 'window',  // This enables the display of a list of currently open windows
         submenu: [
             {
                 label: 'Minimize',
@@ -52,6 +78,25 @@ const template = [
             },
         ],
     },
+    {
+        label: 'Help',
+        role: 'help',
+        submenu: [
+            {
+                label: 'Visit Website',
+                click() {/* TODO: Implement here*/}
+            },
+            {
+                label: 'Toggle Developer Tools',
+                click(item, focusedWindow) {
+                    if(focusedWindow)
+                    {
+                        focusedWindow.webContents.toggleDevTools();
+                    }
+                }
+            }
+        ],
+    }
 ];
 
 if(process.platform === 'darwin')
@@ -88,6 +133,16 @@ if(process.platform === 'darwin')
                 }
             ],
         });
+
+    const windowMenu = template.find(item => item.label === 'Window');
+    windowMenu.role = 'window';
+    windowMenu.submenu.push(
+        { type: 'separator' },
+        {
+            label: 'Bring All to Front', // Moves all of the windows of the application to the front of the stack
+            role: 'front',
+        }
+    );
 }
 
 const applicationMenu = Menu.buildFromTemplate(template);

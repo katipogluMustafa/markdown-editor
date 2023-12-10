@@ -1,5 +1,3 @@
-let filePath          = null;
-let fileCachedContent = null;
 
 /* Resizeable Markdown & HTML Columns */
 
@@ -41,160 +39,35 @@ divider.addEventListener('mousedown', (event) =>{
 const saveMarkdownButton  = document.querySelector('#save-markdown');
 const revertButton        = document.querySelector('#revert');
 
-function updateUserInterfaceAsEdited()
-{
-    if(window.appWindow)
-    {
-        window.appWindow.setEdited();
-    }
-
-    saveMarkdownButton.disabled = false;
-    revertButton.disabled       = false;
-}
-
-function updateUserInterfaceAsNoChange()
-{
-    saveMarkdownButton.disabled = true;
-    revertButton.disabled       = true;
-}
-
 /* Markdown Rendering */
 
 const markdownView = document.querySelector('#markdown');
 const htmlView     = document.querySelector('#html');
 
-markdownView.addEventListener('keyup', (event)=>{
-    const markdownContent = event.target.value;
-    
-    if(window.markdownDocument)
-    {
-        window.markdownDocument.render(markdownContent).then(result=>
-        {
-            htmlView.innerHTML = result;
-        });
-    }
-
-    if(markdownContent === fileCachedContent)
-    {
-        updateUserInterfaceAsNoChange();
-    }
-    else
-    {
-        updateUserInterfaceAsEdited();
-    }
-});
+markdownView.addEventListener('keyup', markdownViewKeyUpHandler);
 
 const openFileButton = document.querySelector('#open-file');
 
-openFileButton.addEventListener('click', ()=>{
-    let file = null;
 
-    if(window.userDialog)
-    {
-        window.userDialog.getFile().then(result=>{
-            file = result;
-
-            if(null != file)
-            {
-                if(window.markdownDocument)
-                {
-                    window.markdownDocument.load(file);
-                }
-            }
-        });
-    }
-});
-
-const renderFile = (file, content) => {
-    filePath          = file;
-    fileCachedContent = content;
-
-    markdownView.value = content;
-
-    if(window.markdownDocument)
-    {
-        window.markdownDocument.render(content).then(result=>{
-            htmlView.innerHTML = result;
-        });
-
-        window.markdownDocument.watch(filePath);
-    }
-}
-
-const onFileOpened = (event, file, content) =>{
-    if(window.userDialog)
-    {
-        window.userDialog.askShouldDiscardUponFileOpen().then(result => {
-            if(result)
-            {
-                renderFile(file, content);
-            }
-        });
-    }
-};
-
-const onFileChanged = (event, file, content) =>{
-    if(window.userDialog)
-    {
-        window.userDialog.askShouldDiscardUponOverwrite().then(result => {
-            if(result)
-            {
-                renderFile(file, content);
-            }
-        });
-    }
-};
-
-if(window.eventHandler)
-{
-    window.eventHandler.setFileOpenHandler(onFileOpened);
-    window.eventHandler.setFileChangedHandler(onFileChanged);
-}
+openFileButton.addEventListener('click', handleOpenFile);
 
 /* Feature: New File */
 
-const newFileButton       = document.querySelector('#new-file');
+const newFileButton = document.querySelector('#new-file');
 
-newFileButton.addEventListener('click', ()=>{
-    if(window.appWindow)
-    {
-        window.appWindow.create();
-    }
-});
+newFileButton.addEventListener('click', handleNewFile);
 
 /* Feature: Save File */
-const saveHtmlButton      = document.querySelector('#save-html');
-saveHtmlButton.addEventListener('click', ()=>{
-    let htmlContent = htmlView.innerHTML;
-    if(window.htmlDocument)
-    {
-        window.htmlDocument.export(htmlContent);
-    }
-});
+const saveHtmlButton = document.querySelector('#save-html');
 
+
+saveHtmlButton.addEventListener('click', handleSaveHtml);
 
 /* Feature: Save as Markdown File */
-saveMarkdownButton.addEventListener('click', ()=>{
-    let fileContent = markdownView.value;
-    if(window.markdownDocument)
-    {
-        window.markdownDocument.export(filePath, fileContent);
-    }
-});
+saveMarkdownButton.addEventListener('click', handleSaveFile);
 
 /* Feature: Revert File Contents */
-revertButton.addEventListener('click', ()=>{
-    markdownView.value = fileCachedContent;
-
-    if(window.markdownDocument)
-    {
-        window.markdownDocument.render(fileCachedContent).then(result=>
-        {
-            htmlView.innerHTML = result;
-        });
-    }
-});
-
+revertButton.addEventListener('click', handleRevertFile);
 
 /* Button Event Handling */
 

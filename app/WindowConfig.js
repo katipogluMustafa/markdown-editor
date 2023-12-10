@@ -1,0 +1,9 @@
+if(window.eventHandler)
+{
+    window.eventHandler.setFileOpenHandler(onFileOpened);
+    window.eventHandler.setFileChangedHandler(onFileChanged);
+    window.eventHandler.setCreateWindowHandler(handleNewFile);
+    window.eventHandler.setOpenFileHandler(handleOpenFile);
+    window.eventHandler.setSaveFileHandler(handleSaveFile);
+    window.eventHandler.setSaveHtmlHandler(handleSaveHtml);
+}
