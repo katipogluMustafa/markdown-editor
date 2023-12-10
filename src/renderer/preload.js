@@ -93,5 +93,11 @@ contextBridge.exposeInMainWorld('eventHandler', {
     },
     setSaveHtmlHandler: (handler) => {
         ipcRenderer.on('save-html', handler);
-    }
+    },
+    setShowFileHandler: (handler) => {
+        ipcRenderer.on('show-file', handler);
+    },
+    setOpenInDefaultAppHandler: (handler) => {
+        ipcRenderer.on('open-in-default', handler);
+    },
 });

@@ -6,4 +6,6 @@ if(window.eventHandler)
     window.eventHandler.setOpenFileHandler(handleOpenFile);
     window.eventHandler.setSaveFileHandler(handleSaveFile);
     window.eventHandler.setSaveHtmlHandler(handleSaveHtml);
+    window.eventHandler.setShowFileHandler(showFileInExplorer);
+    window.eventHandler.setOpenInDefaultAppHandler(openInDefaultApp);
 }
