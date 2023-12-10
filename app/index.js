@@ -34,4 +34,7 @@ revertButton.addEventListener('click', handleRevertFile);
 /* Button Event Handling */
 
 const showFileButton      = document.querySelector('#show-file');
+showFileButton.addEventListener('click', showFileInExplorer);
+
 const openInDefaultButton = document.querySelector('#open-in-default');
+openInDefaultButton.addEventListener('click', openInDefaultApp);

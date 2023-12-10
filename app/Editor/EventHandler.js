@@ -23,6 +23,33 @@ const renderFile = (file, content) => {
 
         window.markdownDocument.watch(filePath);
     }
+
+    openInDefaultButton.disabled = false;
+    showFileButton.disabled = false;
+}
+
+const showFileInExplorer = () => {
+    if(!filePath)
+    {
+        return alert('The file has not been saved to a file.');
+    }
+
+    if(window.osExplorer)
+    {
+        window.osExplorer.reveal(filePath);
+    }
+}
+
+const openInDefaultApp = () => {
+    if(!filePath)
+    {
+        return alert('The file has not been saved to a file.');
+    }
+
+    if(window.osDefaultApp)
+    {
+        window.osDefaultApp.openMarkdown(filePath);
+    }
 }
 
 const onFileOpened = (event, file, content) =>{

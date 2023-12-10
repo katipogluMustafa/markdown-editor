@@ -21,6 +21,18 @@ contextBridge.exposeInMainWorld('appWindow', {
     },
 });
 
+contextBridge.exposeInMainWorld('osExplorer', {
+    reveal: (filePath) => {
+        ipcRenderer.invoke('showFileInExplorer', filePath);
+    }
+});
+
+contextBridge.exposeInMainWorld('osDefaultApp', {
+    openMarkdown: (filePath) => {
+        ipcRenderer.invoke('openInDefaultApplication', filePath);
+    }
+});
+
 contextBridge.exposeInMainWorld('htmlDocument', {
     /*
      * Export the rendered-markdown document.

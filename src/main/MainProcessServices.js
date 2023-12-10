@@ -1,4 +1,4 @@
-const { BrowserWindow, ipcMain} = require('electron');
+const { BrowserWindow, ipcMain, shell} = require('electron');
 const { createWindow }          = require('./EditorWindow');
 const { getFileFromUser, shouldDiscardDataUponNewFileOpen, shouldDiscardDataUponFileOverwrite }       = require('./UserDialog');
 const { parseMarkdownToHtml }   = require('./MarkdownParser');
@@ -73,6 +73,14 @@ function registerMainProcessServices()
         const callingWindow = BrowserWindow.fromWebContents(event.sender);
 
         return shouldDiscardDataUponFileOverwrite(callingWindow);
+    });
+
+    ipcMain.handle('showFileInExplorer', (event, filePath) => {
+        shell.showItemInFolder(filePath);
+    });
+
+    ipcMain.handle('openInDefaultApplication', (event, filePath) => {
+        shell.openPath(filePath);
     });
 }
 
