@@ -8,6 +8,7 @@ const markdownView = document.querySelector('#markdown');
 const htmlView     = document.querySelector('#html');
 
 markdownView.addEventListener('keyup', markdownViewKeyUpHandler);
+markdownView.addEventListener('contextmenu', handleCustomContextMenu)
 
 /* Feature: Open File*/
 

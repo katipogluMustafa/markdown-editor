@@ -129,3 +129,11 @@ const handleOpenFile = ()=>{
         });
     }
 }
+
+const handleCustomContextMenu = (event)=>{
+    event.preventDefault();
+    if(window.menu)
+    {
+        window.menu.reveal();
+    }
+}

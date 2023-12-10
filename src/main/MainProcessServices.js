@@ -9,6 +9,7 @@ const {
     loadEditorWindow,
 } = require('./MarkdownDocument');
 const { markEditorWindowStateEdited } = require('./WindowEditState');
+const { markdownContextMenu } = require('./ContextMenu');
 
 function registerMainProcessServices()
 {
@@ -88,6 +89,10 @@ function registerMainProcessServices()
 
     ipcMain.handle('openInDefaultApplication', (event, filePath) => {
         shell.openPath(filePath);
+    });
+
+    ipcMain.handle('revealEditorContextMenu', (event) => {
+        markdownContextMenu.popup();
     });
 }
 

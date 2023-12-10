@@ -107,3 +107,9 @@ contextBridge.exposeInMainWorld('eventHandler', {
         ipcRenderer.on('open-in-new-window', handler);
     }
 });
+
+contextBridge.exposeInMainWorld('menu', {
+    reveal: () => {
+        ipcRenderer.invoke('revealEditorContextMenu');
+    }
+});
